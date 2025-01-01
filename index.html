@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yallaiah Onteru | LLM Developer</title>
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            position: relative;
+        }
+
+        /* Background graphics */
+        #tsparticles, #three-js-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            z-index: 10;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 3D text shadow */
+        }
+        header h1 {
+            font-size: 3em;
+            margin: 0;
+            font-family: 'Helvetica', sans-serif;
+            transform: perspective(500px) rotateY(10deg); /* Adding 3D rotation */
+        }
+        header p {
+            font-size: 1.2em;
+            font-weight: lighter;
+        }
+
+        nav {
+            background-color: #2980b9;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #16a085;
+            transform: scale(1.1) perspective(500px) rotateY(5deg); /* 3D hover effect */
+        }
+
+        section {
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .about, .skills, .experience, .projects, .contact, .certifications {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            transform: perspective(600px) rotateY(15deg); /* 3D image rotation */
+        }
+
+        .about h2 {
+            font-size: 2.8em;
+            color: #2980b9;
+        }
+        .about p {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        .skills h2, .certifications h2 {
+            color: #2980b9;
+            margin-bottom: 20px;
+        }
+
+        /* Skills Flexbox with 3D hover effect */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .skills .skill {
+            background-color: #16a085;
+            padding: 8px 15px;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1em;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: fit-content;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .skills .skill:hover {
+            transform: translateZ(30px) scale(1.1); /* 3D hover effect on skill boxes */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+
+        /* Certifications Flexbox with 3D hover effect */
+        .certifications {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .certifications .cert {
+            background-color: #16a085;
+            padding: 12px 18px;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1em;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 200px;
+            text-align: center;
+        }
+        .certifications .cert:hover {
+            transform: translateZ(30px) scale(1.1); /* 3D hover effect on certs */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .projects h2 {
+            color: #2980b9;
+            margin-bottom: 15px;
+        }
+
+        .project {
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project:hover {
+            transform: perspective(500px) rotateY(10deg) scale(1.05); /* 3D card hover effect */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .contact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .contact .contact-item {
+            background-color: #2980b9;
+            color: white;
+            padding: 12px 20px;
+            width: 80%;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+        .contact .contact-item:hover {
+            background-color: #3498db;
+        }
+
+        .contact .social-icons a {
+            color: white;
+            font-size: 2em;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .contact .social-icons a:hover {
+            color: #e74c3c;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+/* Style for the header section */
+header {
+    text-align: center;
+    padding: 50px;
+    background-color: #f4f7fb;
+    color: #333;
+}
+
+header h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #2b3e50;
+}
+
+header p {
+    font-size: 18px;
+    color: #5f6a7c;
+    margin-top: 10px;
+}
+
+.cta-button {
+    background-color: #2196f3;
+    color: white;
+    font-size: 16px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #1976d2;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+    <h1>Yallaiah Onteru</h1>
+    <p>LLM Developer | Lang Chain | Chatbot Design | RAG | Agents | Large Language Models | Prompt Engineering</p>
+    <!-- Button to redirect to chatbot application -->
+    <a href="https://genaiapplications-j27is4ka9gg35kyl9jutr8.streamlit.app/" target="_blank">
+        <button class="cta-button">Visit My Chatbot Application</button>
+    </a>
+</header>
+
+
+    <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="about" class="about">
+        <img src="ya.png" alt="Yallaiah Onteru">
+        <h2>About Me</h2>
+        <p>
+            Passionate about AI and LLMs, I thrive in creating solutions that bridge the gap between machine learning and real-world applications. I’ve spent countless hours designing intelligent systems, from chatbots to complex data pipelines. Whether it’s building algorithms to diagnose diseases or creating an AI assistant, I strive to craft efficient, elegant, and user-centric solutions. My focus on deep learning and large-scale data engineering has given me the tools to tackle complex problems and build systems that scale. Join me as I continue pushing the boundaries of what AI can achieve.
+        </p>
+    </section>
+
+    <section id="skills" class="skills">
+        <h2>Skills & Expertise</h2>
+        <div class="skill">Deep Learning</div>
+        <div class="skill">Natural Language Processing</div>
+        <div class="skill">TensorFlow</div>
+        <div class="skill">PyTorch</div>
+        <div class="skill">Hugging Face</div>
+        <div class="skill">GPT-3</div>
+        <div class="skill">Model Training</div>
+        <div class="skill">Model Deployment</div>
+        <div class="skill">Azure Data Factory</div>
+        <div class="skill">Python</div>
+        <div class="skill">LangChain</div>
+        <div class="skill">RAG (Retrieval Augmented Generation)</div>
+        <div class="skill">Data Pipelines</div>
+        <div class="skill">Generative Models</div>
+        <div class="skill">AI Chatbots</div>
+        <div class="skill">Large Language Models (LLMs)</div>
+        <div class="skill">Prompt Engineering</div>
+        <div class="skill">AI Model Fine-Tuning</div>
+        <div class="skill">Machine Learning Algorithms</div>
+        <div class="skill">AI in Healthcare</div>
+        <div class="skill">Text Summarization</div>
+        <div class="skill">Semantic Search</div>
+        <div class="skill">Chatbot Development</div>
+    </section>
+
+<section id="experience" class="experience">
+    <h2>Experience</h2>
+
+    <div class="project">
+        <h3>LLM Developer | University of Wisconsin-Milwaukee</h3>
+        <p>Aug 2023 - Dec 2024 · 1 yr 5 mos (On-site, United States)</p>
+        <p>
+            As an LLM Developer, I focus on designing and developing advanced AI models, including chatbots, using large language models (LLMs). This role involves understanding the user's needs, selecting the right platforms, and ensuring scalability and compatibility for chatbot deployment. Key tasks include prompt engineering, retrieval-augmented generation (RAG), and improving the accuracy of language-based interactions.
+        </p>
+        <p><strong>Skills: </strong>Prompt Engineering, RAG, Chatbot Development, Large Language Models, NLP, GPT-3</p>
+    </div>
+
+    <div class="project">
+        <h3>Graduate Student | University of Wisconsin-Milwaukee</h3>
+        <p>Sep 2023 - Dec 2023 · 4 mos</p>
+        <p>
+            Gained hands-on experience in machine learning and AI, focusing on deep learning, neural networks, and recommendation systems. Completed self-paced modules on ChatGPT and Generative AI, exploring real-world applications of these models in predictive analytics, natural language processing, and AI-driven decision-making.
+        </p>
+        <p><strong>Skills: </strong>Python, Machine Learning, Neural Networks, Deep Learning, AI, ChatGPT, Generative AI</p>
+    </div>
+
+    <div class="project">
+        <h3>Data Engineer | SANN Info Technologies Pvt Ltd</h3>
+        <p>Sep 2021 - Aug 2023 · 2 yrs (On-site, United States)</p>
+        <p>
+            As an Azure Data Engineer, I specialized in automating data workflows using Azure Data Factory (ADF) and managing complex data integration projects. I designed and deployed pipelines to process, transform, and load data into Azure Data Lake Storage and led data migration projects, ensuring smooth transitions between cloud platforms. My role also included automating data processing using ADF triggers and optimizing data extraction and reporting.
+        </p>
+        <p><strong>Skills: </strong>Azure Data Factory, Data Integration, Data Pipelines, Cloud Computing, Data Engineering, ADF Triggers, SQL</p>
+    </div>
+
+    <div class="project">
+        <h3>Big Data Engineer | SANN Info Technologies Pvt Ltd</h3>
+        <p>Jul 2020 - Aug 2021 · 1 yr 2 mos (On-site, Bangalore)</p>
+        <p>
+            As a Big Data Engineer, I worked on migrating large datasets from RDBMS to HDFS using Sqoop and optimized ETL pipelines with Spark and Hive. I developed and maintained real-time and batch data ingestion workflows to ensure scalability, performance, and reliability for big data systems. I also worked on managing migrations from local machines to Cloudera, enhancing data availability and processing efficiency.
+        </p>
+        <p><strong>Skills: </strong>Hadoop, Spark, Hive, Sqoop, ETL Pipelines, Big Data, Cloudera</p>
+    </div>
+
+       <div class="project">
+        <h3>Big Data Intern | Andhra Pradesh State Skill Development Corporation (APSSDC)</h3>
+        <p>Apr 2018 - Dec 2018 · 9 mos (On-site)</p>
+        <p>
+            As a Big Data Intern, I worked with large datasets, utilizing tools such as Apache Spark to process data and generate meaningful insights. I assisted in developing and optimizing ETL workflows and learned the practical applications of big data technologies for predictive analytics and reporting.
+        </p>
+        <p><strong>Skills: </strong>Apache Spark, Big Data, Data Engineering, ETL Pipelines, Data Processing</p>
+    </div>
+
+</section>
+
+
+   <section id="projects" class="projects">
+    <h2>Projects</h2>
+
+    <div class="project">
+        <h3>AI in Healthcare: Brain Tumor Detection</h3>
+        <p>Developed an AI strategy to improve the accuracy and speed of brain tumor detection using MRI scans. Leveraged deep learning techniques like ResNet for tumor detection and ResUNet for precise tumor segmentation, achieving high diagnostic performance.</p>
+        <ul>
+            <li><strong>Accuracy:</strong> 97.90%</li>
+            <li><strong>Precision:</strong> 98.19%</li>
+            <li><strong>Recall:</strong> 98.70%</li>
+            <li><strong>F1 Score:</strong> 98.45%</li>
+        </ul>
+    </div>
+
+    <div class="project">
+        <h3>AI Assistant Chatbot (Web Scraping Application)</h3>
+        <p>Built an AI application that scrapes web data from any URL and enables users to ask questions based on the extracted content. The app uses GPT models for generating accurate responses and is deployed using Streamlit for easy user interaction.</p>
+        <ul>
+            <li><strong>Technologies:</strong> LangChain, BeautifulSoup, GPT Models, Streamlit</li>
+            <li><strong>Functionality:</strong> Scrapes web content and answers queries based on scraped data.</li>
+        </ul>
+    </div>
+
+    <div class="project">
+        <h3>Heart Attack Prediction Using Machine Learning</h3>
+        <p>Developed a predictive machine learning model for heart attack prediction using patient data. Performed feature engineering and model evaluation with an F1 score to assess the accuracy and effectiveness of the model.</p>
+        <ul>
+            <li><strong>Technologies:</strong> Apache Spark, PySpark, Azure Databricks, Machine Learning</li>
+            <li><strong>Goal:</strong> Early identification of at-risk patients for heart attack prevention.</li>
+        </ul>
+    </div>
+
+    <div class="project">
+        <h3>Sentiment Analysis of Government Pandemic Responses</h3>
+        <p>Performed sentiment analysis on pandemic-related data to predict government responses to crisis situations, focusing on factors like vaccine availability and other key indicators of policy decisions.</p>
+        <ul>
+            <li><strong>Technologies:</strong> Apache Spark, PySpark, SQL, Machine Learning</li>
+            <li><strong>Goal:</strong> Predict government sentiment and responses to pandemic situations.</li>
+        </ul>
+    </div>
+
+</section>
+
+
+    <section id="certifications" class="certifications">
+        <h2>Certifications</h2> 
+        <div class="cert">Introduction to Large Language Models</div>
+        <div class="cert">Microsoft Certified: Azure Data Engineer Associate</div>
+        <div class="cert">Salesforce Certified Platform Developer I</div>
+        <div class="cert">Cloud Computing By IBM </div>
+        <div class="cert">Java SE 8 Programmer I</div>
+
+    </section>
+
+     <section id="contact" class="contact">
+        <h2>Contact Me</h2>
+        <div class="contact-item">
+            Phone: +1 (414) 275-0857
+        </div>
+        <div class="contact-item">
+            Email: <a href="mailto:onteruyallaiah970@gmail.com">onteruyallaiah970@gmail.com</a>
+        </div>
+        <div class="contact-item">
+            LinkedIn: <a href="https://www.linkedin.com/in/yallaiah-onteru-699763266" target="_blank">yallaiah-onteru</a>
+        </div>
+        <div class="contact-item social-icons">
+            <a href="https://www.youtube.com/@AvinyaSolutions" target="_blank">
+                <i class="fab fa-youtube"></i> YouTube Channel
+            </a>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>© 2025 Yallaiah Onteru | All rights reserved</p>
+    </footer>
+</body>
+</html>
