@@ -359,6 +359,69 @@ section p {
     margin-bottom: 30px;
 }
 
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Button for the dropdown */
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Button for the dropdown */
+.dropbtn {
+    background-color: transparent; /* Make the background transparent */
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Same transition effect as nav links */
+}
+
+/* Show background color on hover */
+.dropbtn:hover {
+    background-color: #16a085;
+    transform: scale(1.1) perspective(500px) rotateY(5deg); /* 3D hover effect */
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #2980b9; /* Match the navbar background */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-weight: normal; /* Adjust text weight for dropdown items */
+    text-transform: none; /* Remove uppercase styling */
+}
+
+/* Change color when hovering over a link */
+.dropdown-content a:hover {
+    background-color: #16a085; /* Match the hover effect of nav links */
+    transform: scale(1.1) perspective(500px) rotateY(5deg); /* 3D hover effect */
+}
+
+/* Show the dropdown menu when hovering over the button */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
 
     </style>
 </head>
@@ -382,6 +445,14 @@ section p {
         <a href="#posts">Posts</a>
         <a href="#documents">Documents</a>
         <a href="#contact">Contact</a>
+    <!dropdown menu--->
+     <div class="dropdown">
+        <a href="#" class="dropbtn">Courses</a>
+        <div class="dropdown-content">
+            <a href="data-engineering-course.html">ML & Data Engineering</a>
+            <a href="langchain-course.html">LangChain</a>
+        </div>
+      </div>
     </nav>
 
     <section id="about" class="about">
