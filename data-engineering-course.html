@@ -3,188 +3,943 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PySpark Topics</title>
-    <link rel="stylesheet" href="styles.css">
+        <title>PySpark Introduction and Core Components</title>
     <style>
+        /* General body styles */
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f9;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-        h1, h2 {
-            color: #2980b9;
+
+        /* Header styles */
+        h1, h2, h3, h4 {
+            color: #333;
+            font-weight: bold;
+            text-align: center;
         }
-        h2 {
+
+        h1 {
+            font-size: 2.5rem;
             margin-top: 20px;
-            font-size: 24px;
         }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 15px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            margin-top: 8px;
+        }
+
+        /* Paragraph and code styles */
+        p {
+            font-size: 1rem;
+            margin: 10px 20px;
+        }
+
+        code {
+            background-color: #f9f9f9;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+
+        /* Preformatted code block styles */
         pre {
-            background-color: #2d3e50;
-            color: #ecf0f1;
+            background-color: #2e2e2e;
+            color: white;
             padding: 15px;
             border-radius: 5px;
-            overflow-x: auto;
+            font-size: 1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 10px 20px;
+            overflow: auto;
         }
-        code {
-            font-family: "Courier New", Courier, monospace;
-        }
+
+        /* List and table styles */
         ul {
-            line-height: 1.8;
-            font-size: 1.1em;
+            padding-left: 40px;
         }
-        .topic {
-            margin-bottom: 40px;
+
+        ul li {
+            margin-bottom: 8px;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Image styles */
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        /* Blockquote styles */
+        blockquote {
+            background-color: #e9e9e9;
+            border-left: 4px solid #888;
+            margin: 20px;
+            padding: 10px 20px;
+            font-style: italic;
+        }
+
+        /* Button styles */
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+/* Make sure code elements are visible */
+pre, code {
+    background-color: #f4f4f4; /* Light gray background for better contrast */
+    color: #333333; /* Dark text color */
+    padding: 10px; /* Add padding for better readability */
+    border-radius: 5px; /* Rounded corners */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font */
+}
+
+/* Ensure pre blocks (which hold code snippets) have some margin */
+pre {
+    margin: 10px 0;
+    overflow-x: auto; /* Allow horizontal scrolling if the code is too long */
+}
+/* Container for all code boxes */
+.code-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between code boxes */
+    justify-content: space-between; /* Distribute code boxes evenly */
+}
+
+/* Individual code box styling */
+.code-box {
+    flex: 1 1 calc(33.33% - 20px); /* Each box takes up 1/3 of the space */
+    min-width: 250px; /* Ensure boxes are not too small */
+    background-color: #f4f4f4;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for interactivity */
+.code-box:hover {
+    transform: scale(1.05);
+    border-color: #3498db; /* Change border color on hover */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling for the code block */
+pre, code {
+    background-color: #282c34; /* Dark background for code */
+    color: #f8f8f2; /* Light text color */
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: auto;
+}
+
+/* Code Box Headings */
+.code-box h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Ensure text is visible and readable */
+pre {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
     </style>
 </head>
 <body>
+    <h1>Introduction to PySpark</h1>
 
-    <h1>PySpark Topics for Data Engineering</h1>
+    <h2>Overview of Apache Spark and PySpark</h2>
+    <p>Apache Spark is an open-source, distributed computing system that provides an interface for programming entire clusters with implicit data parallelism and fault tolerance. PySpark is the Python API for Spark, enabling users to leverage Spark's scalability and speed using Python.</p>
+    <p>PySpark allows you to perform large-scale data processing and analytics tasks using the distributed computing capabilities of Apache Spark. It supports both batch processing and real-time data stream processing.</p>
 
-    <div class="topic">
-        <h2>1. Introduction to Apache Spark</h2>
-        <p>Apache Spark is an open-source distributed computing system that provides fast and general-purpose cluster-computing capabilities for big data processing. It can process large datasets across a distributed cluster of computers and supports both batch and real-time analytics.</p>
-        <p>Understanding Apache Spark includes the following concepts:</p>
-        <ul>
-            <li><strong>What is Apache Spark</strong>: It is a fast, in-memory distributed computing system. Spark performs computations using clusters and distributed computing, which allows it to process big data more efficiently than traditional systems.</li>
-            <li><strong>Spark Ecosystem</strong>: Apache Spark has several components such as Spark Core (for basic operations), Spark SQL (for querying data), Spark Streaming (for processing streaming data), MLlib (for machine learning tasks), and GraphX (for graph processing).</li>
-            <li><strong>RDD (Resilient Distributed Dataset)</strong>: RDD is the primary abstraction in Spark for representing distributed data. It is an immutable distributed collection of objects that can be processed in parallel.</li>
-            <li><strong>DataFrames and Datasets</strong>: A DataFrame is a distributed collection of data organized into named columns. It is similar to a table in a relational database. Datasets are strongly-typed, whereas DataFrames are untyped.</li>
-        </ul>
-    </div>
+    <h2>PySpark Architecture: Driver, Executors, Cluster Manager</h2>
+    <p>In PySpark, the application is divided into components that work together to execute tasks:</p>
+    <ul>
+        <li><b>Driver:</b> The main program that runs the PySpark application. It handles the execution flow and coordinates work across the cluster.</li>
+        <li><b>Executors:</b> JVM processes running on worker nodes that perform the tasks assigned by the driver.</li>
+        <li><b>Cluster Manager:</b> Manages the cluster's resources. Examples include standalone mode, YARN, and Mesos.</li>
+    </ul>
+    <img src="https://example.com/spark-architecture.png" alt="Spark Architecture Diagram" width="600">
+    <p>In this architecture, the driver splits tasks into smaller jobs and distributes them across executors, ensuring fault tolerance and parallel processing.</p>
 
-    <div class="topic">
-        <h2>2. PySpark Core Concepts</h2>
-        <p>PySpark is the Python API for Apache Spark, which allows you to use Spark with Python. The core concepts of PySpark include working with RDDs and DataFrames to perform transformations and actions on distributed data.</p>
-        
-        <h3>RDD Operations</h3>
-        <p>RDD operations are divided into two categories:</p>
-        <ul>
-            <li><strong>Actions</strong>: Actions trigger the execution of RDD transformations and return a result (e.g., `collect()`, `count()`, `reduce()`).</li>
-            <li><strong>Transformations</strong>: Transformations create new RDDs without triggering execution until an action is called (e.g., `map()`, `filter()`, `flatMap()`).</li>
-        </ul>
-        
-        <p><strong>Example Code for RDD:</strong></p>
-        <pre><code>
-# Create an RDD and apply transformations
-rdd = spark.parallelize([1, 2, 3, 4])
-result = rdd.map(lambda x: x * 2).collect()  # Multiply each element by 2
-print(result)  # Output: [2, 4, 6, 8]
-        </code></pre>
+    <h2>Installation and Setup</h2>
+    <h3>Standalone Mode:</h3>
+    <pre><code>
+# Download and extract Spark
+wget https://archive.apache.org/dist/spark/spark-3.1.2/spark-3.1.2-bin-hadoop3.2.tgz
+tar -xvzf spark-3.1.2-bin-hadoop3.2.tgz
 
-        <h3>DataFrame Operations</h3>
-        <p>DataFrames are higher-level abstractions over RDDs. You can perform a variety of operations on DataFrames, such as:</p>
-        <ul>
-            <li><strong>Creating DataFrames</strong>: You can create DataFrames from structured data sources such as CSV, JSON, or Parquet.</li>
-            <li><strong>Basic Operations</strong>: Operations like `select()`, `filter()`, `groupBy()`, and `agg()` allow you to manipulate DataFrame data.</li>
-            <li><strong>Data Cleaning</strong>: Handle missing values with methods like `dropna()` and `fillna()`.</li>
-        </ul>
+# Set environment variables
+export SPARK_HOME=/path/to/spark
+export PATH=$SPARK_HOME/bin:$PATH
 
-        <p><strong>Example Code for DataFrame:</strong></p>
-        <pre><code>
-# Create a DataFrame from a CSV file
-df = spark.read.csv("data.csv", header=True, inferSchema=True)
-df.show()  # Display the first few rows of the DataFrame
-        </code></pre>
-    </div>
+# Start Spark Master and Worker
+$SPARK_HOME/sbin/start-master.sh
+$SPARK_HOME/sbin/start-worker.sh spark://localhost:7077
+    </code></pre>
 
-    <div class="topic">
-        <h2>3. Working with Spark SQL</h2>
-        <p>Spark SQL allows you to run SQL queries on DataFrames and RDDs, making it easier to work with structured data using SQL syntax. You can create temporary views of DataFrames and execute SQL queries on them.</p>
-        
-        <p><strong>Example Code for Spark SQL:</strong></p>
-        <pre><code>
-# Create a DataFrame and register it as a temporary view
-df = spark.read.json("data.json")
-df.createOrReplaceTempView("data_table")
+    <h3>YARN Cluster Mode:</h3>
+    <pre><code>
+# Submit PySpark application to YARN
+spark-submit --master yarn --deploy-mode cluster my_pyspark_app.py
+    </code></pre>
 
-# Run a SQL query on the DataFrame
-result = spark.sql("SELECT * FROM data_table WHERE age > 25")
-result.show()
-        </code></pre>
+    <h3>Kubernetes Mode:</h3>
+    <pre><code>
+# Submit PySpark application to Kubernetes
+spark-submit --master k8s://https://<kubernetes-cluster-url> \
+  --deploy-mode cluster \
+  --conf spark.kubernetes.container.image=<spark-image> \
+  --conf spark.kubernetes.namespace=<namespace> \
+  my_pyspark_app.py
+    </code></pre>
 
-        <ul>
-            <li><strong>Creating Temporary Views</strong>: Register DataFrames as SQL tables to query using SQL commands.</li>
-            <li><strong>UDF (User Defined Functions)</strong>: You can write custom Python functions and register them as UDFs to use within Spark SQL queries.</li>
-        </ul>
-    </div>
+    <h2>PySpark Shell and Jupyter Notebook Integration</h2>
+    <h3>PySpark Shell</h3>
+    <p>The PySpark shell provides an interactive environment to run PySpark code in real-time. To start the PySpark shell, run:</p>
+    <pre><code>
+# Start PySpark shell
+pyspark
+    </code></pre>
 
-    <div class="topic">
-        <h2>4. Data Processing with PySpark</h2>
-        <p>PySpark enables you to read, process, and write data in multiple formats such as CSV, JSON, Parquet, and Avro. You can also perform operations like joins and partitioning to optimize data processing.</p>
-        
-        <h3>Example Code for Data Processing:</h3>
-        <pre><code>
-# Reading data from a JSON file
-df = spark.read.json("data.json")
+    <h3>Jupyter Notebook Integration</h3>
+    <p>To run PySpark within Jupyter, you need to configure Spark with Jupyter. Here's how to do it:</p>
+    <pre><code>
+# Install findspark (if not already installed)
+pip install findspark
+
+# Configure Jupyter to use PySpark
+import findspark
+findspark.init()
+
+# Start a Spark session in Jupyter
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName("Jupyter PySpark").getOrCreate()
+    </code></pre>
+
+    <h1>PySpark Core Components</h1>
+
+    <h2>1. Resilient Distributed Datasets (RDDs)</h2>
+    <p>RDDs are the fundamental data structure in Spark, representing an immutable, distributed collection of objects.</p>
+
+    <h3>Creating RDDs</h3>
+    <p>We can create RDDs in PySpark using <code>parallelize</code> and <code>textFile</code> methods.</p>
+
+    <h4>Using <code>parallelize</code>:</h4>
+    <pre><code>
+from pyspark import SparkContext
+sc = SparkContext("local", "RDD Example")
+
+# Create RDD from a list
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+rdd.collect()  # Output: [1, 2, 3, 4, 5]
+    </code></pre>
+
+    <h4>Using <code>textFile</code>:</h4>
+    <pre><code>
+rdd_from_file = sc.textFile("sample.txt")
+rdd_from_file.collect()  # Output: ['line1', 'line2', 'line3']
+    </code></pre>
+
+    <!-- The rest of your previous code for RDD transformations and actions goes here -->
+<title>PySpark Core Components</title>
+</head>
+<body>
+    <h1>PySpark Core Components</h1>
+
+    <h2>1. Resilient Distributed Datasets (RDDs)</h2>
+    <p>RDDs are the fundamental data structure in Spark, representing an immutable, distributed collection of objects.</p>
+
+    <h3>Creating RDDs</h3>
+    <p>We can create RDDs in PySpark using <code>parallelize</code> and <code>textFile</code> methods.</p>
+
+    <h4>Using <code>parallelize</code>:</h4>
+    <pre><code>
+from pyspark import SparkContext
+sc = SparkContext("local", "RDD Example")
+
+# Create RDD from a list
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+rdd.collect()  # Output: [1, 2, 3, 4, 5]
+    </code></pre>
+
+    <h4>Using <code>textFile</code>:</h4>
+    <pre><code>
+rdd_from_file = sc.textFile("sample.txt")
+rdd_from_file.collect()  # Output: ['line1', 'line2', 'line3']
+    </code></pre>
+
+    <h3>Transformations</h3>
+    <p>Transformations are lazy operations on RDDs. They produce a new RDD.</p>
+
+    <h4><code>map</code> Transformation:</h4>
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+mapped_rdd = rdd.map(lambda x: x * 2)
+mapped_rdd.collect()  # Output: [2, 4, 6, 8, 10]
+    </code></pre>
+
+    <h4><code>filter</code> Transformation:</h4>
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+filtered_rdd = rdd.filter(lambda x: x > 2)
+filtered_rdd.collect()  # Output: [3, 4, 5]
+    </code></pre>
+
+    <h4><code>flatMap</code> Transformation:</h4>
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3])
+flat_mapped_rdd = rdd.flatMap(lambda x: (x, x * 2))
+flat_mapped_rdd.collect()  # Output: [1, 2, 2, 4, 3, 6]
+    </code></pre>
+
+    <h4><code>groupByKey</code> Transformation:</h4>
+    <pre><code>
+rdd = sc.parallelize([('a', 1), ('b', 2), ('a', 3), ('b', 4)])
+grouped_rdd = rdd.groupByKey().mapValues(list)
+grouped_rdd.collect()  # Output: [('a', [1, 3]), ('b', [2, 4])]
+    </code></pre>
+
+    <h4><code>reduceByKey</code> Transformation:</h4>
+    <pre><code>
+rdd = sc.parallelize([('a', 1), ('b', 2), ('a', 3), ('b', 4)])
+reduced_rdd = rdd.reduceByKey(lambda x, y: x + y)
+reduced_rdd.collect()  # Output: [('a', 4), ('b', 6)]
+    </code></pre>
+
+    <h3>Actions</h3>
+    <p>Actions trigger the execution of transformations and return results.</p>
+
+    <h4><code>collect</code> Action:</h4>
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+rdd.collect()  # Output: [1, 2, 3, 4, 5]
+    </code></pre>
+
+    <h4><code>count</code> Action:</h4>
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+rdd.count()  # Output: 5
+    </code></pre>
+
+    <h4><code>take</code> Action:</h4>
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+rdd.take(3)  # Output: [1, 2, 3]
+    </code></pre>
+
+    <h4><code>reduce</code> Action:</h4>
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+rdd.reduce(lambda x, y: x + y)  # Output: 15
+    </code></pre>
+
+    <h4><code>saveAsTextFile</code> Action:</h4>
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+rdd.saveAsTextFile("output.txt")
+    </code></pre>
+
+    <h3>Key-Value RDDs and Pair RDD Operations</h3>
+    <p>Key-value RDDs are RDDs containing key-value pairs.</p>
+
+    <h4><code>reduceByKey</code> Example:</h4>
+    <pre><code>
+rdd = sc.parallelize([('a', 1), ('b', 2), ('a', 3), ('b', 4)])
+rdd.reduceByKey(lambda x, y: x + y).collect()  # Output: [('a', 4), ('b', 6)]
+    </code></pre>
+
+    <h4>Caching and Persistence</h4>
+    <p>To improve performance, RDDs can be cached or persisted in memory.</p>
+
+    <pre><code>
+rdd = sc.parallelize([1, 2, 3, 4, 5])
+rdd.cache()  # Persist in memory
+rdd.collect()  # Output: [1, 2, 3, 4, 5]
+    </code></pre>
+
+    <h2>2. DataFrames</h2>
+    <p>DataFrames provide a higher-level abstraction and are used to represent structured data in PySpark.</p>
+
+    <h3>Creating DataFrames</h3>
+    <h4>From RDD:</h4>
+    <pre><code>
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName("DataFrame Example").getOrCreate()
+
+# Create DataFrame from RDD
+rdd = spark.sparkContext.parallelize([(1, "Alice"), (2, "Bob")])
+df = spark.createDataFrame(rdd, ["ID", "Name"])
 df.show()
+    </code></pre>
 
-# Writing data to a Parquet file
-df.write.parquet("output.parquet")
-        </code></pre>
+    <h4>From CSV:</h4>
+    <pre><code>
+df_csv = spark.read.csv("data.csv", header=True, inferSchema=True)
+df_csv.show()
+    </code></pre>
 
-        <ul>
-            <li><strong>Joins</strong>: You can join DataFrames using different types of joins (inner, outer, left, right) to combine data from multiple sources.</li>
-            <li><strong>Partitioning and Shuffling</strong>: Partitioning data helps with parallel processing, and shuffling impacts the performance of the operations.</li>
-        </ul>
-    </div>
+    <h4>Schema Definition and Inference:</h4>
+    <pre><code>
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType
+schema = StructType([
+    StructField("ID", IntegerType(), True),
+    StructField("Name", StringType(), True)
+])
+df_with_schema = spark.createDataFrame(rdd, schema)
+df_with_schema.show()
+    </code></pre>
 
-    <div class="topic">
-        <h2>5. PySpark with Machine Learning (MLlib)</h2>
-        <p>MLlib is the machine learning library in Spark, providing scalable algorithms for regression, classification, clustering, and more. You can also use it to build machine learning pipelines.</p>
-        
-        <h3>Example Code for MLlib:</h3>
-        <pre><code>
-from pyspark.ml.classification import LogisticRegression
-from pyspark.ml.feature import VectorAssembler
+    <h3>DataFrame API Operations</h3>
+    <h4><code>select</code>:</h4>
+    <pre><code>
+df.select("Name").show()  # Output: Alice, Bob
+    </code></pre>
+
+    <h4><code>filter</code>:</h4>
+    <pre><code>
+df.filter(df["ID"] > 1).show()  # Output: Bob
+    </code></pre>
+
+    <h4><code>groupBy</code>:</h4>
+    <pre><code>
+df.groupBy("Name").count().show()  # Output: Alice 1, Bob 1
+    </code></pre>
+
+    <h4><code>join</code>:</h4>
+    <pre><code>
+df1 = spark.createDataFrame([(1, "Alice"), (2, "Bob")], ["ID", "Name"])
+df2 = spark.createDataFrame([(1, "HR"), (2, "Engineering")], ["ID", "Department"])
+df1.join(df2, on="ID", how="inner").show()
+    </code></pre>
+
+    <h2>3. Datasets</h2>
+    <p>Datasets are mainly used in Scala/Java. In PySpark, DataFrames provide similar functionality and are preferred for Python applications.</p>
+
+    <p>Python does not directly support Datasets, but DataFrames offer rich functionality for working with structured data, which can be used instead.</p>
+
+<!------------pyspark sql------------------------------------>
+<title>PySpark SQL</title>
+</head>
+<body>
+    <h1>PySpark SQL</h1>
+
+    <h2>Overview of PySpark SQL Module</h2>
+    <p>The PySpark SQL module provides a programming interface for working with structured and semi-structured data. It allows users to run SQL queries on DataFrames and provides support for various SQL operations, including joins, aggregations, and filtering. It also supports integration with Hive for querying Hive tables.</p>
+
+    <h2>SQLContext and SparkSession</h2>
+    <p><b>SQLContext</b> was the entry point for working with structured data in earlier versions of Spark. Starting from Spark 2.0, <b>SparkSession</b> is the unified entry point for Spark applications, which includes all functionalities of SQLContext and HiveContext.</p>
+    <p><b>SparkSession</b> is used to initialize the Spark session, which is necessary to run SQL queries and create DataFrames.</p>
+
+    <h4>Creating SparkSession:</h4>
+    <pre><code>
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName("PySpark SQL Example").getOrCreate()
+    </code></pre>
+
+    <h4>SQLContext Example (Deprecated in Spark 2.0+):</h4>
+    <pre><code>
+from pyspark.sql import SQLContext
+sqlContext = SQLContext(spark)
+    </code></pre>
+
+    <h2>Executing SQL Queries on DataFrames</h2>
+    <p>With PySpark, you can use the SQL API to run SQL queries on DataFrames. First, you must register the DataFrame as a temporary view, then execute SQL queries on it.</p>
+
+    <h4>Example:</h4>
+    <pre><code>
+# Create DataFrame
+data = [("Alice", 1), ("Bob", 2), ("Charlie", 3)]
+df = spark.createDataFrame(data, ["Name", "ID"])
+
+# Register DataFrame as a temporary view
+df.createOrReplaceTempView("people")
+
+# Execute SQL query
+result = spark.sql("SELECT * FROM people WHERE ID > 1")
+result.show()  # Output: Bob 2, Charlie 3
+    </code></pre>
+
+    <h2>User-Defined Functions (UDFs) in PySpark SQL</h2>
+    <p>User-Defined Functions (UDFs) allow you to define custom functions in Python and apply them to DataFrames. You can register Python functions as UDFs and use them within SQL queries or DataFrame transformations.</p>
+
+    <h4>Example:</h4>
+    <pre><code>
+from pyspark.sql.functions import udf
+from pyspark.sql.types import IntegerType
+
+# Define a UDF to add 1 to an integer
+def add_one(x):
+    return x + 1
+
+# Register UDF
+add_one_udf = udf(add_one, IntegerType())
+
+# Create DataFrame
+data = [("Alice", 1), ("Bob", 2)]
+df = spark.createDataFrame(data, ["Name", "ID"])
+
+# Apply UDF
+df_with_udf = df.withColumn("ID_plus_1", add_one_udf(df["ID"]))
+df_with_udf.show()  # Output: Alice 1 2, Bob 2 3
+    </code></pre>
+
+    <h2>Handling Complex Data Types (Arrays, Structs, Maps)</h2>
+    <p>PySpark supports complex data types such as Arrays, Structs, and Maps. These types can be used to represent nested data structures within DataFrames.</p>
+
+    <h4>Arrays Example:</h4>
+    <pre><code>
+from pyspark.sql.functions import col
+
+# Create DataFrame with Array type
+data = [("Alice", ["Math", "Science"]), ("Bob", ["History", "Geography"])]
+df = spark.createDataFrame(data, ["Name", "Subjects"])
+
+# Access array element
+df.select(col("Name"), col("Subjects")[0].alias("First_Subject")).show()  # Output: Alice Math, Bob History
+    </code></pre>
+
+    <h4>Structs Example:</h4>
+    <pre><code>
+from pyspark.sql.types import StructType, StructField, StringType
+
+# Create DataFrame with Struct type
+schema = StructType([
+    StructField("Name", StringType(), True),
+    StructField("Details", StructType([
+        StructField("Age", StringType(), True),
+        StructField("City", StringType(), True)
+    ]))
+])
+
+data = [("Alice", ("25", "New York")), ("Bob", ("30", "London"))]
+df = spark.createDataFrame(data, schema)
+
+df.show()  # Output: Alice (25, New York), Bob (30, London)
+    </code></pre>
+
+    <h4>Maps Example:</h4>
+    <pre><code>
+from pyspark.sql.functions import map
+
+# Create DataFrame with Map type
+data = [("Alice", {"Math": 90, "Science": 80}), ("Bob", {"History": 85, "Geography": 88})]
+df = spark.createDataFrame(data, ["Name", "Scores"])
+
+df.show()  # Output: Alice {"Math": 90, "Science": 80}, Bob {"History": 85, "Geography": 88}
+    </code></pre>
+
+    <h2>Working with Catalogs and Metadata</h2>
+    <p>Catalogs and metadata in PySpark provide ways to manage and interact with tables, schemas, and data sources in a structured way. PySpark supports querying the catalog and accessing table metadata.</p>
+
+    <h4>Example of Listing Tables in the Catalog:</h4>
+    <pre><code>
+# Show list of tables
+spark.catalog.listTables()
+    </code></pre>
+
+    <h4>Getting Table Schema:</h4>
+    <pre><code>
+# Get schema of a table
+df.printSchema()
+    </code></pre>
+
+    <h2>Optimization Techniques (Partitioning, Bucketing)</h2>
+    <p>Partitioning and bucketing are techniques that optimize data storage and query performance in Spark. These methods allow you to distribute data across different partitions or buckets for efficient processing.</p>
+
+    <h4>Partitioning Example:</h4>
+    <pre><code>
+# Repartition a DataFrame into 4 partitions
+df_repartitioned = df.repartition(4)
+df_repartitioned.rdd.getNumPartitions()  # Output: 4
+    </code></pre>
+
+    <h4>Bucketing Example:</h4>
+    <pre><code>
+# Bucketing a DataFrame on a specific column
+df.write.bucketBy(4, "ID").saveAsTable("people_bucketed")
+    </code></pre>
+<!--------------------------pyspart stereamimng-------------------------->
+<title>PySpark Streaming</title>
+</head>
+<body>
+    <h1>PySpark Streaming</h1>
+
+    <h2>Overview of Spark Streaming and Structured Streaming</h2>
+    <p>Spark Streaming is a scalable and fault-tolerant stream processing system that enables real-time processing of live data streams. It divides the incoming data stream into small batches and processes them using Spark's core engine.</p>
+    <p>Structured Streaming, introduced in Spark 2.x, is a newer abstraction that allows for continuous stream processing with a focus on DataFrame and Dataset APIs. It provides easier programming models and improves performance compared to the older RDD-based Spark Streaming.</p>
+
+    <h2>Real-time Data Processing Concepts</h2>
+    <p>In real-time data processing, data is continuously ingested, processed, and outputted, typically in small time intervals (micro-batches). These systems must handle data in real-time and deliver results in a timely manner.</p>
+    <p>Key concepts include:</p>
+    <ul>
+        <li><b>Micro-batches:</b> Data is processed in small time intervals called batches.</li>
+        <li><b>Latency:</b> Time taken to process incoming data.</li>
+        <li><b>Stateful Processing:</b> Maintaining state across multiple micro-batches.</li>
+    </ul>
+
+    <h2>Input Sources (Kafka, Socket, HDFS, Flume)</h2>
+    <p>PySpark Streaming supports various input sources for real-time data:</p>
+    <ul>
+        <li><b>Kafka:</b> Popular message broker for streaming data.</li>
+        <li><b>Socket:</b> Streaming data from socket connections.</li>
+        <li><b>HDFS:</b> Streaming data stored in Hadoop Distributed File System.</li>
+        <li><b>Flume:</b> Distributed service for collecting log data and other data sources.</li>
+    </ul>
+
+    <h4>Kafka Input Example:</h4>
+    <pre><code>
 from pyspark.sql import SparkSession
 
-# Create a logistic regression model
-spark = SparkSession.builder.appName("MLlibExample").getOrCreate()
-data = spark.read.csv("data.csv", header=True, inferSchema=True)
+spark = SparkSession.builder.appName("KafkaStream").getOrCreate()
+
+# Read data from Kafka
+df = spark.readStream.format("kafka").option("kafka.bootstrap.servers", "localhost:9092").option("subscribe", "topic_name").load()
+
+# Convert binary to string
+df = df.selectExpr("CAST(value AS STRING)")
+
+df.show()  # Displays streaming data from Kafka
+    </code></pre>
+
+    <h4>Socket Input Example:</h4>
+    <pre><code>
+# Read data from a socket
+df = spark.readStream.format("socket").option("host", "localhost").option("port", 9999).load()
+
+# Process the stream
+df.selectExpr("CAST(value AS STRING)").show()  # Display the incoming stream
+    </code></pre>
+
+    <h2>Streaming Operations (Windowing, Stateful Processing)</h2>
+    <p>Spark Streaming allows for windowing and stateful processing in streams.</p>
+
+    <h4>Windowing Example:</h4>
+    <pre><code>
+from pyspark.sql.functions import window
+
+# Define the window duration (e.g., 10 seconds) and slide duration (e.g., 5 seconds)
+df_with_window = df.groupBy(window(df.timestamp, "10 seconds", "5 seconds")).count()
+
+df_with_window.writeStream.outputMode("complete").format("console").start().awaitTermination()
+    </code></pre>
+
+    <h4>Stateful Processing Example:</h4>
+    <pre><code>
+from pyspark.sql.functions import expr
+
+# Stateful transformation to count the number of occurrences of words over time
+stateful_stream = df.groupBy("word").count().withWatermark("timestamp", "10 seconds")
+
+stateful_stream.writeStream.outputMode("update").format("console").start().awaitTermination()
+    </code></pre>
+
+    <h2>Output Sinks (Console, Files, Kafka, HDFS)</h2>
+    <p>Once data is processed in real-time, you need to output it to an appropriate sink. Common sinks include:</p>
+    <ul>
+        <li><b>Console:</b> Output the processed data to the console for debugging.</li>
+        <li><b>Files:</b> Write the processed data to files (e.g., text, CSV, JSON).</li>
+        <li><b>Kafka:</b> Push the processed data to Kafka topics.</li>
+        <li><b>HDFS:</b> Output data to Hadoop Distributed File System.</li>
+    </ul>
+
+    <h4>Console Output Example:</h4>
+    <pre><code>
+df.writeStream.outputMode("append").format("console").start().awaitTermination()
+    </code></pre>
+
+    <h4>File Output Example:</h4>
+    <pre><code>
+df.writeStream.outputMode("append").format("parquet").option("path", "output_dir").start().awaitTermination()
+    </code></pre>
+
+    <h4>Kafka Output Example:</h4>
+    <pre><code>
+df.writeStream.format("kafka").option("kafka.bootstrap.servers", "localhost:9092").option("topic", "output_topic").start().awaitTermination()
+    </code></pre>
+
+    <h4>HDFS Output Example:</h4>
+    <pre><code>
+df.writeStream.outputMode("append").format("parquet").option("path", "hdfs://localhost:9000/output").start().awaitTermination()
+    </code></pre>
+
+    <h2>Fault Tolerance and Checkpointing</h2>
+    <p>Spark Streaming ensures fault tolerance through checkpointing. Checkpointing saves the state of the streaming computation, so if the application fails, it can recover the computation from the last checkpoint.</p>
+
+    <h4>Checkpointing Example:</h4>
+    <pre><code>
+# Define a checkpoint directory
+checkpoint_dir = "/path/to/checkpoint/dir"
+
+# Write the stream with checkpointing
+df.writeStream.format("parquet").option("path", "output_path").option("checkpointLocation", checkpoint_dir).start().awaitTermination()
+    </code></pre>
+
+    <p>Checkpointing is important for ensuring that the system can recover from failures without losing data or state.</p>
+
+<!----------------------------->
+<title>PySpark Machine Learning (MLlib)</title>
+</head>
+<body>
+    <h1>PySpark Machine Learning (MLlib)</h1>
+
+    <h2>Overview of MLlib</h2>
+    <p>MLlib is a scalable machine learning library built on top of Spark that provides various algorithms and utilities for machine learning tasks. It supports supervised and unsupervised learning algorithms, feature engineering techniques, and tools for model evaluation and tuning.</p>
+
+    <h3>Features of MLlib and Supported Algorithms</h3>
+    <ul>
+        <li><b>Supervised Learning:</b> Algorithms like Linear Regression, Logistic Regression, Decision Trees, and Random Forests.</li>
+        <li><b>Unsupervised Learning:</b> Algorithms like K-Means clustering and Principal Component Analysis (PCA).</li>
+        <li><b>Feature Engineering:</b> Tools for feature transformation such as VectorAssembler, StringIndexer, OneHotEncoder, etc.</li>
+        <li><b>Model Evaluation:</b> Evaluators like RegressionEvaluator, BinaryClassificationEvaluator, etc.</li>
+        <li><b>Hyperparameter Tuning:</b> Techniques like CrossValidator and TrainValidationSplit for tuning models.</li>
+    </ul>
+
+    <h2>Feature Engineering</h2>
+    <p>Feature engineering is a critical step in machine learning where raw data is transformed into a form suitable for modeling. MLlib provides several useful tools for this purpose.</p>
+
+    <h4>VectorAssembler Example:</h4>
+    <pre><code>
+from pyspark.ml.feature import VectorAssembler
+
+# Example DataFrame
+data = [(1, 2.0, 3.0), (2, 4.0, 5.0), (3, 6.0, 7.0)]
+df = spark.createDataFrame(data, ["ID", "feature1", "feature2"])
+
+# Assemble features into a vector
 assembler = VectorAssembler(inputCols=["feature1", "feature2"], outputCol="features")
-data = assembler.transform(data)
+df_assembled = assembler.transform(df)
+df_assembled.show()
+    </code></pre>
+
+    <h4>StringIndexer Example:</h4>
+    <pre><code>
+from pyspark.ml.feature import StringIndexer
+
+# Example DataFrame with categorical values
+data = [("cat",), ("dog",), ("cat",)]
+df = spark.createDataFrame(data, ["category"])
+
+# Convert categories to numeric indices
+indexer = StringIndexer(inputCol="category", outputCol="categoryIndex")
+df_indexed = indexer.fit(df).transform(df)
+df_indexed.show()  # Output: numeric index for each category
+    </code></pre>
+
+    <h4>OneHotEncoder Example:</h4>
+    <pre><code>
+from pyspark.ml.feature import OneHotEncoder
+
+# One-hot encoding the indexed column
+encoder = OneHotEncoder(inputCol="categoryIndex", outputCol="categoryVec")
+df_encoded = encoder.transform(df_indexed)
+df_encoded.show()
+    </code></pre>
+
+    <h2>Supervised Learning Algorithms</h2>
+    <p>Supervised learning algorithms learn from labeled data to predict an output based on input features.</p>
+
+    <h4>Linear Regression Example:</h4>
+    <pre><code>
+from pyspark.ml.regression import LinearRegression
+
+# Prepare data
+data = [(1, 1.0), (2, 2.0), (3, 3.0)]
+df = spark.createDataFrame(data, ["label", "features"])
+
+# Train Linear Regression model
+lr = LinearRegression(featuresCol="features", labelCol="label")
+lr_model = lr.fit(df)
+lr_model.summary.r2  # Output: R-squared of the model
+    </code></pre>
+
+    <h4>Logistic Regression Example:</h4>
+    <pre><code>
+from pyspark.ml.classification import LogisticRegression
+
+# Prepare data
+data = [(1, 1.0), (0, 0.0), (1, 1.0)]
+df = spark.createDataFrame(data, ["label", "features"])
+
+# Train Logistic Regression model
 lr = LogisticRegression(featuresCol="features", labelCol="label")
-model = lr.fit(data)
-model.summary()
-        </code></pre>
+lr_model = lr.fit(df)
+lr_model.summary.accuracy  # Output: Accuracy of the model
+    </code></pre>
 
-        <ul>
-            <li><strong>Supervised Learning</strong>: Use algorithms like logistic regression, decision trees, and random forests for classification and regression tasks.</li>
-            <li><strong>Unsupervised Learning</strong>: Use clustering algorithms like K-Means and Gaussian Mixture Models for unsupervised tasks.</li>
-            <li><strong>Pipeline API</strong>: Use Pipelines to organize your machine learning workflow from data preprocessing to model training.</li>
-        </ul>
-    </div>
+    <h4>Decision Trees Example:</h4>
+    <pre><code>
+from pyspark.ml.classification import DecisionTreeClassifier
 
-    <div class="topic">
-        <h2>6. PySpark Streaming</h2>
-        <p>PySpark Streaming enables the processing of real-time data streams. With PySpark, you can ingest and process data in small batches, making it suitable for applications that require real-time insights.</p>
+# Prepare data
+data = [(1, 1.0), (0, 0.0), (1, 1.0)]
+df = spark.createDataFrame(data, ["label", "features"])
 
-        <h3>Example Code for Streaming:</h3>
-        <pre><code>
-from pyspark.streaming import StreamingContext
+# Train Decision Tree model
+dt = DecisionTreeClassifier(featuresCol="features", labelCol="label")
+dt_model = dt.fit(df)
+dt_model.toDebugString  # Output: Debug information of the decision tree
+    </code></pre>
 
-# Create a StreamingContext and set the batch interval
-ssc = StreamingContext(sparkContext, 10)  # 10 second batch interval
+    <h4>Random Forests Example:</h4>
+    <pre><code>
+from pyspark.ml.classification import RandomForestClassifier
 
-# Create a DStream from a socket
-lines = ssc.socketTextStream("localhost", 9999)
+# Prepare data
+data = [(1, 1.0), (0, 0.0), (1, 1.0)]
+df = spark.createDataFrame(data, ["label", "features"])
 
-# Process the stream (word count example)
-words = lines.flatMap(lambda line: line.split(" "))
-wordCounts = words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b)
+# Train Random Forest model
+rf = RandomForestClassifier(featuresCol="features", labelCol="label")
+rf_model = rf.fit(df)
+rf_model.featureImportances  # Output: Feature importances from the Random Forest model
+    </code></pre>
 
-wordCounts.pprint()
-ssc.start()
-ssc.awaitTermination()
-        </code></pre>
+    <h2>Unsupervised Learning Algorithms</h2>
+    <p>Unsupervised learning algorithms find patterns in data without the need for labeled data.</p>
 
-        <ul>
-            <li><strong>Structured Streaming</strong>: Real-time stream processing using Spark's built-in structured streaming APIs.</li>
-            <li><strong>Windowing</strong>: Implementing time-based windows for aggregating streaming data.</li>
-            <li><strong>Sources & Sinks</strong>: Read data from sources like Kafka and write results to various sinks such as HDFS or databases.</li>
-        </ul>
-    </div>
+    <h4>K-Means Clustering Example:</h4>
+    <pre><code>
+from pyspark.ml.clustering import KMeans
+
+# Prepare data
+data = [(0, 1.0, 1.0), (1, 1.5, 1.5), (2, 9.0, 9.0)]
+df = spark.createDataFrame(data, ["ID", "feature1", "feature2"])
+
+# Perform KMeans clustering
+kmeans = KMeans(k=2, featuresCol="features", predictionCol="prediction")
+model = kmeans.fit(df)
+model.clusterCenters()  # Output: Cluster centers
+    </code></pre>
+
+    <h4>Principal Component Analysis (PCA) Example:</h4>
+    <pre><code>
+from pyspark.ml.feature import PCA
+from pyspark.ml.linalg import Vectors
+
+# Prepare data
+data = [(0, Vectors.dense([1.0, 0.1, -1.0])), (1, Vectors.dense([2.0, 1.1, 1.0]))]
+df = spark.createDataFrame(data, ["ID", "features"])
+
+# Perform PCA
+pca = PCA(k=2, inputCol="features", outputCol="pca_features")
+model = pca.fit(df)
+result = model.transform(df)
+result.show()  # Output: Reduced features after PCA
+    </code></pre>
+
+    <h2>Pipeline API</h2>
+    <p>The PySpark MLlib pipeline API allows you to build machine learning workflows that include multiple stages, such as data preprocessing, feature transformation, and model training. A pipeline ensures that all stages of the machine learning workflow are applied consistently.</p>
+
+    <h4>Building and Managing ML Pipelines Example:</h4>
+    <pre><code>
+from pyspark.ml import Pipeline
+
+# Define stages in the pipeline
+assembler = VectorAssembler(inputCols=["feature1", "feature2"], outputCol="features")
+lr = LogisticRegression(featuresCol="features", labelCol="label")
+
+# Create pipeline
+pipeline = Pipeline(stages=[assembler, lr])
+
+# Fit the pipeline to training data
+model = pipeline.fit(df)
+predictions = model.transform(df)  # Output: Predictions based on the pipeline
+    </code></pre>
+
+    <h2>Model Evaluation</h2>
+    <p>Model evaluation is a crucial step in assessing the performance of a machine learning model. PySpark provides evaluators for regression and classification tasks.</p>
+
+    <h4>RegressionEvaluator Example:</h4>
+    <pre><code>
+from pyspark.ml.evaluation import RegressionEvaluator
+
+# Evaluate model performance using RMSE (Root Mean Squared Error)
+evaluator = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="rmse")
+rmse = evaluator.evaluate(predictions)
+print(f"RMSE: {rmse}")
+    </code></pre>
+
+    <h4>BinaryClassificationEvaluator Example:</h4>
+    <pre><code>
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
+
+# Evaluate model performance using AUC (Area Under Curve)
+evaluator = BinaryClassificationEvaluator(labelCol="label", rawPredictionCol="prediction")
+auc = evaluator.evaluate(predictions)
+print(f"AUC: {auc}")
+    </code></pre>
+
+    <h2>Hyperparameter Tuning</h2>
+    <p>Hyperparameter tuning helps improve the performance of machine learning models by searching for the best combination of hyperparameters.</p>
+
+    <h4>CrossValidator Example:</h4>
+    <pre><code>
+from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
+
+# Define a parameter grid
+paramGrid = ParamGridBuilder().addGrid(lr.regParam, [0.1, 0.01]).addGrid(lr.maxIter, [10, 100]).build()
+
+# Perform cross-validation
+crossval = CrossValidator(estimator=lr, estimatorParamMaps=paramGrid, evaluator=RegressionEvaluator(), numFolds=3)
+cv_model = crossval.fit(df)
+best_model = cv_model.bestModel
+    </code></pre>
+
+    <h4>TrainValidationSplit Example:</h4>
+    <pre><code>
+from pyspark.ml.tuning import TrainValidationSplit
+
+# TrainValidationSplit for hyperparameter tuning
+tvs = TrainValidationSplit(estimator=lr, estimatorParamMaps=paramGrid, evaluator=RegressionEvaluator(), trainRatio=0.8)
+tvs_model = tvs.fit(df)
+best_model = tvs_model.bestModel
+    </code></pre>
 
 </body>
 </html>
