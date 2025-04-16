@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spartex AI Chatbot</title>
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #00D1B2;
+            --dark: #0F172A;
+            --darker: #020617;
+            --light: #F8FAFC;
+            --text: #FFFFFF;
+            --text-dark: #CBD5E1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--darker);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chatbot-container {
+            width: 100%;
+            max-width: 500px;
+            height: 90vh;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(108, 99, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .chatbot-header {
+            padding: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+        }
+
+        .chatbot-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chatbot-message {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .chatbot-message.bot {
+            background: rgba(108, 99, 255, 0.2);
+            border-bottom-left-radius: 5px;
+            margin-right: auto;
+        }
+
+        .chatbot-message.user {
+            background: var(--primary);
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+            color: white;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-self: flex-start;
+            padding: 12px 18px;
+            background: rgba(108, 99, 255, 0.2);
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text);
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+            30% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            border-radius: 25px 0 0 25px;
+            outline: none;
+            background: rgba(2, 6, 23, 0.5);
+            color: var(--text);
+        }
+
+        #send-btn {
+            padding: 0 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        #send-btn:hover {
+            opacity: 0.9;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h1 class="chatbot-title">Spartex AI Assistant</h1>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="chatbot-message bot">
+                Hello! I'm Spartex, your AI assistant. I can answer questions about Yallaiah Onteru's professional experience, skills, and services. How can I help you today?
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="user-input" placeholder="Type your question...">
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Resume knowledge base
+        const RESUME_DATA = `
+        Yallaiah Onteru - Data Engineer & AI Specialist
+        
+        PROFESSIONAL SUMMARY:
+        - Experienced Data Engineer with expertise in Azure, AWS, and GCP
+        - Specializes in big data technologies (Hadoop, Spark, Kafka)
+        - Offers real-time data streaming and financial datasets ($5 each)
+        - Strong background in AI/ML integration
+        
+        TECHNICAL SKILLS:
+        - Big Data: Hadoop, Spark, Kafka, Hive, Airflow
+        - Cloud: Azure Databricks, AWS Glue, GCP BigQuery
+        - Programming: Python, SQL, Scala, Java
+        - Databases: PostgreSQL, MongoDB, Snowflake
+        
+        SERVICES:
+        - Real-time streaming datasets: $5
+        - Banking/financial datasets: $5
+        - Custom data pipeline development
+        - AI/ML integration consulting
+        
+        EXPERIENCE:
+        - Generative AI Engineer @ South Florida Investor Social Club (2025-Present)
+        - Azure Data Engineer @ Tech Mahindra (2021-2023)
+        
+        EDUCATION:
+        - MS in IT (AI & Data Analytics) @ UW-Milwaukee
+        - BS in Electronics Engineering
+        
+        CONTACT:
+        - Phone: (414) 275-0857
+        - Email: Onteruyallaiah970@gmail.com
+        `;
+
+        // DOM elements
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        // Chat history
+        let chatHistory = [
+            {
+                role: "CHATBOT",
+                message: "Hello! I'm Spartex, your AI assistant. I can answer questions about Yallaiah Onteru's professional experience, skills, and services. How can I help you today?"
+            }
+        ];
+
+        // Function to add a message to the chat
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chatbot-message');
+            messageDiv.classList.add(isUser ? 'user' : 'bot');
+            messageDiv.textContent = text;
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Function to show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('typing-indicator');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatbotMessages.appendChild(typingDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            return typingDiv;
+        }
+
+        // Function to hide typing indicator
+        function hideTypingIndicator() {
+            const typingDiv = document.getElementById('typing-indicator');
+            if (typingDiv) {
+                typingDiv.remove();
+            }
+        }
+
+        // Function to get bot response
+        async function getBotResponse(userText) {
+            showTypingIndicator();
+            
+            try {
+                // Create a prompt that includes the resume data
+                const prompt = `
+                You are Spartex, an AI assistant for Yallaiah Onteru (Data Engineer & AI Specialist). 
+                Use the following information to answer questions professionally and accurately:
+                
+                ${RESUME_DATA}
+                
+                Current Question: "${userText}"
+                
+                Guidelines:
+                1. Be concise but informative (1-3 sentences)
+                2. For dataset inquiries, mention: "Available for $5 (contact for details)"
+                3. Highlight relevant experience when asked about specific skills
+                4. Provide contact info if requested
+                5. Maintain a professional, helpful tone
+                `;
+
+                const response = await fetch('https://api.cohere.ai/v1/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer DdH32VwNJgNAQhWqI2AVRuOStu8L2nzRMdAM1t7J'
+                    },
+                    body: JSON.stringify({
+                        message: prompt,
+                        chat_history: chatHistory,
+                        model: "command",
+                        temperature: 0.3,
+                        max_tokens: 300
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.text;
+            } catch (error) {
+                console.error('Error calling Cohere API:', error);
+                return "I'm currently unable to process your request. Please contact Yallaiah directly at Onteruyallaiah970@gmail.com for assistance.";
+            } finally {
+                hideTypingIndicator();
+            }
+        }
+
+        // Function to send message
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage(message, true);
+            chatHistory.push({
+                role: "USER",
+                message: message
+            });
+
+            // Clear input
+            userInput.value = '';
+
+            // Get bot response
+            const botResponse = await getBotResponse(message);
+            
+            // Add bot response to chat
+            addMessage(botResponse, false);
+            chatHistory.push({
+                role: "CHATBOT",
+                message: botResponse
+            });
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Focus input on load
+        userInput.focus();
+    </script>
+</body>
+</html>
